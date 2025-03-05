@@ -6,6 +6,7 @@ import com.example.notice.board.DataNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service
@@ -23,6 +24,13 @@ public class BoardService {
         } else {
             throw new DataNotFoundException("board not found");
         }
+    }
+    public void create(String subject, String content) {
+        Board b = new Board();
+        b.setSubject(subject);
+        b.setContent(content);
+        b.setCreateDate(LocalDateTime.now());
+        this.boardRepository.save(b);
     }
 
 }
