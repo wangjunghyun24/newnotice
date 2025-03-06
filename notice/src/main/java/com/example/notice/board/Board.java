@@ -27,8 +27,8 @@ public class Board {
 
     @Column(columnDefinition = "TEXT")
     private String content;
-
-    private LocalDateTime createDate;
+    @Column(name = "modify_date")
+    private LocalDateTime modifyDate;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<Comment> commentList;

@@ -4,15 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 
 import lombok.RequiredArgsConstructor;
 import com.example.notice.comment.CommentForm;
@@ -51,8 +49,31 @@ public class BoardController {
         }
 
         // TODO 질문을 저장한다.
-        this.boardService.create(boardForm.getSubject(), boardForm.getSubject());
-        return "redirect:/board/list"; // 질문 저장후 질문목록으로 이동
+        this.boardService.create(boardForm.getSubject(), boardForm.getContent());
+        return "redirect:/board/list";
     }
+    @GetMapping("/board/modify/{id}")
+    public String boardModify(BoardForm boardForm, @PathVariable("id") Integer id) {
+        Board board = this.boardService.getBoard(id);
+        boardForm.setSubject(board.getSubject());
+        boardForm.setContent(board.getContent());
+        return "board_form";
+    }
+    @PostMapping("/board/modify/{id}")
+    public String boardModify(@Valid BoardForm boardFormForm, BindingResult bindingResult,
+                                 @PathVariable ("id") Integer id) {
+        if (bindingResult.hasErrors()) {
+            return "board_form";
+        }
+        Board board = this.boardService.getBoard(id);
+        this.boardService.modify(board, boardFormForm.getSubject(), boardFormForm.getContent());
+        return String.format("redirect:/board/detail/%s", id);
+    }
+    @GetMapping("board/delete/{id}")
+    public String questionDelete( @PathVariable("id") Integer id) {
+        Board board = this.boardService.getBoard(id);
 
+        this.boardService.delete(board);
+        return "redirect:/";
+    }
 }
