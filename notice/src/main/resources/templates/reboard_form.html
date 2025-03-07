@@ -2,8 +2,8 @@
 <div layout:fragment="content" class="container">
 	<h5 class="my-3 border-bottom pb-2">notice</h5>
 
-	<form th:action="@{/board/create}" th:object="${boardForm}" method="post">
-
+	<form th:action="@{/board/modify/{id}(id=${board.id})}" th:object="${boardForm}" method="post">
+		<input type="hidden" th:field="*{id}" />
 		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
 		<div class="mb-3">
 			<label for="subject" class="form-label">title</label>

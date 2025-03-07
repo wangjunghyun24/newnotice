@@ -23,7 +23,7 @@
 			<li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
 				<a class="page-link"
 				   th:href="@{|?page=${paging.number-1}|}">
-					<span>이전</span>
+					<span>prev</span>
 				</a>
 			</li>
 			<li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
@@ -34,12 +34,12 @@
 			</li>
 			<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
 				<a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-					<span>다음</span>
+					<span>next</span>
 				</a>
 			</li>
 		</ul>
 	</div>
-	<a th:href="@{/board/create}" class="btn btn-primary">질문 등록하기</a>
+	<a th:href="@{/board/create}" class="btn btn-primary">upload</a>
 </div>
 
 </html>

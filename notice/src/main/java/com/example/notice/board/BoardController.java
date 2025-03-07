@@ -53,20 +53,23 @@ public class BoardController {
         return "redirect:/board/list";
     }
     @GetMapping("/board/modify/{id}")
-    public String boardModify(BoardForm boardForm, @PathVariable("id") Integer id) {
+    public String boardModify(BoardForm boardForm, @PathVariable("id") Integer id, Model model) {
         Board board = this.boardService.getBoard(id);
+        boardForm.setId(board.getId());
         boardForm.setSubject(board.getSubject());
         boardForm.setContent(board.getContent());
-        return "board_form";
+        model.addAttribute("board", board);
+        model.addAttribute("boardForm", boardForm);
+        return "reboard_form";
     }
     @PostMapping("/board/modify/{id}")
-    public String boardModify(@Valid BoardForm boardFormForm, BindingResult bindingResult,
+    public String boardModify(@Valid BoardForm boardForm, BindingResult bindingResult,
                                  @PathVariable ("id") Integer id) {
         if (bindingResult.hasErrors()) {
-            return "board_form";
+            return "reboard_form";
         }
         Board board = this.boardService.getBoard(id);
-        this.boardService.modify(board, boardFormForm.getSubject(), boardFormForm.getContent());
+        this.boardService.modify(board, boardForm.getSubject(), boardForm.getContent());
         return String.format("redirect:/board/detail/%s", id);
     }
     @GetMapping("board/delete/{id}")

@@ -3,7 +3,6 @@ package com.example.notice.board;
 import java.util.List;
 import java.util.Optional;
 import com.example.notice.board.DataNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,12 +40,12 @@ public class BoardService {
         Pageable pageable = PageRequest.of(page, 5);
         return this.boardRepository.findAll(pageable);
     }
-    @Transactional
     public void modify(Board board, String subject, String content) {
         board.setSubject(subject);
         board.setContent(content);
         board.setModifyDate(LocalDateTime.now());
-        this.boardRepository.save(board);
+        this.boardRepository.save(board);  // saveAndFlush 사용
+
     }
     public void delete(Board board) {
         this.boardRepository.delete(board);
