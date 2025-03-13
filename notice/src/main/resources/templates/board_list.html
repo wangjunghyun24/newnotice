@@ -1,19 +1,26 @@
-<html layout:decorate="~{layout}">
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <div layout:fragment="content" class="container my-3">
 	<table class="table">
 		<thead class="table">
 			<tr>
 				<th>No</th>
-				<th>Title</th>
+				<th style="width:50%">제목</th>
+				<th>글쓴이</th>
+
 
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="board, loop : ${paging}">
-				<td th:text="${loop.count}"></td>
-				<td>
+			<tr class="text-center" th:each="board, loop : ${paging}">
+				<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+				<td class="text-start">
 					<a th:href="@{|/board/detail/${board.id}|}" th:text="${board.subject}"></a>
+					<span class="text-danger small ms-2"
+						  th:if="${#lists.size(question.answerList) > 0}"
+						  th:text="${#lists.size(question.answerList)}">
+                    </span>
 				</td>
+				<td><span th:if="${question.author != null}" th:text="${question.author.username}"></span></td>
 
 			</tr>
 		</tbody>

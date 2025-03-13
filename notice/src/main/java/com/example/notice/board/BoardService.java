@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import com.example.notice.user.SiteUser;
+
+
 
 import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
@@ -28,11 +31,13 @@ public class BoardService {
             throw new DataNotFoundException("board not found");
         }
     }
-    public void create(String subject, String content) {
+    public void create(String subject, String content, SiteUser user) {
         Board b = new Board();
         b.setSubject(subject);
         b.setContent(content);
         b.setModifyDate(LocalDateTime.now());
+        b.setAuthor(user);
+
         this.boardRepository.save(b);
     }
 

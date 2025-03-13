@@ -1,4 +1,5 @@
-<html layout:decorate="~{layout}">
+<html layout:decorate="~{layout}"xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <div layout:fragment="content" class="container">
 	<h5 class="my-3 border-bottom pb-2">notice</h5>
 
@@ -6,11 +7,11 @@
 		<input type="hidden" th:field="*{id}" />
 		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
 		<div class="mb-3">
-			<label for="subject" class="form-label">title</label>
+			<label th:for="subject" class="form-label">title</label>
 			<input type="text" th:field="*{subject}" class="form-control">
 		</div>
 		<div class="mb-3">
-			<label for="content" class="form-label">comment</label>
+			<label th:for="content" class="form-label">comment</label>
 			<textarea th:field="*{content}" class="form-control" rows="10"></textarea>
 		</div>
 		<input type="submit" value="submit" class="btn btn-primary my-2">

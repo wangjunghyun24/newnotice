@@ -14,11 +14,19 @@ import org.springframework.http.HttpStatus;
 
 import lombok.RequiredArgsConstructor;
 import com.example.notice.comment.CommentForm;
+
+import java.security.Principal;
+import com.example.notice.user.SiteUser;
+import com.example.notice.user.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
+
+
 @RequiredArgsConstructor
 @Controller
 public class BoardController {
 
     private final BoardService boardService;
+    private final UserService userService;
 
 
     @GetMapping("/board/list")
@@ -38,18 +46,22 @@ public class BoardController {
         model.addAttribute("board", board);
         return "board_detail";
     }
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/create")
     public String boardCreate(BoardForm boardForm) {
         return "board_form";
     }
+
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/board/create")
-    public String boardCreate(@Valid BoardForm boardForm, BindingResult bindingResult) {
+    public String boardCreate(@Valid BoardForm boardForm, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "board_form";
         }
 
-        // TODO 질문을 저장한다.
-        this.boardService.create(boardForm.getSubject(), boardForm.getContent());
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        this.boardService.create(boardForm.getSubject(), boardForm.getContent(),siteUser);
         return "redirect:/board/list";
     }
     @GetMapping("/board/modify/{id}")
