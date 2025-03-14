@@ -16,11 +16,11 @@
 				<td class="text-start">
 					<a th:href="@{|/board/detail/${board.id}|}" th:text="${board.subject}"></a>
 					<span class="text-danger small ms-2"
-						  th:if="${#lists.size(question.answerList) > 0}"
-						  th:text="${#lists.size(question.answerList)}">
+						  th:if="${#lists.size(board.commentList) > 0}"
+						  th:text="${#lists.size(board.commentList)}">
                     </span>
 				</td>
-				<td><span th:if="${question.author != null}" th:text="${question.author.username}"></span></td>
+				<td><span th:if="${board.author != null}" th:text="${board.author.username}"></span></td>
 
 			</tr>
 		</tbody>
