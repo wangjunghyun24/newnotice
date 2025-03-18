@@ -15,6 +15,11 @@
 <body>
 <nav th:replace="~{navbar :: navbarFragment}"></nav>
 <th:block layout:fragment="content"></th:block>
+<!-- Bootstrap JS -->
+<script th:src="@{/bootstrap.min.js}"></script>
+<!-- 자바스크립트 기능 추가 -->
+<th:block layout:fragment="script"></th:block>
+<!-- 자바 스크립트 추가 -->
 </body>
 
 </html>
